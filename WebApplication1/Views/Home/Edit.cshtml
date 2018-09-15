@@ -1,0 +1,36 @@
+﻿@model WebApplication1.Models.Test
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактирование задания</h2>
+
+@using (Html.BeginForm())
+{
+    <h4>Задание</h4>
+    @Html.HiddenFor(model => model.Id)
+
+    <p>
+        Описание задания<br />
+        @Html.EditorFor(model => model.Name)
+    </p>
+
+    <p>
+        Статус задания<br />
+        @Html.EditorFor(model => model.Status)
+    </p>
+
+    <p>
+        ID предмета<br />
+        @Html.DropDownListFor(model => model.SubjectId, ViewBag.Subjects as SelectList)
+    </p>
+
+    <p>
+        <input type="submit" value="Изменить задание" />
+    </p>
+
+}
+<div>
+    @Html.ActionLink("К списку заданий", "Index")
+</div>

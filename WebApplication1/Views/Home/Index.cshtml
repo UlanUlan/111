@@ -1,0 +1,79 @@
+﻿@model WebApplication1.Models.TestsListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div><span id="notification" style="color:red;font-size:15px;"></span></div>
+
+<h2>Список всех заданий</h2>
+<p>
+    @Html.ActionLink("Создать новую задачу", "Create")
+</p>
+
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Статус</label>
+        @Html.DropDownList("status", Model.Statuses as SelectList,
+                 htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            <p>Описание</p>
+        </th>
+        <th>
+            <p>Статус</p>
+        </th>
+        <th>
+            <p>Предмет</p>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Tests)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+
+
+</table>
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var notificationhub = $.connection.notificationHub;
+
+            notificationhub.client.displayMessage = function (message) {
+
+                $('#notification').html(message);
+            };
+
+            $.connection.hub.start();
+
+        });
+    </script>}
