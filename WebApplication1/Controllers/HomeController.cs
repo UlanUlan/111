@@ -57,7 +57,11 @@ namespace WebApplication1.Controllers
             {
                 db.Tests.Add(test);
                 db.SaveChanges();
-                SendMessage("Задание успешно добавлено!");
+                TempData["Message"] = "Задание успешно добавлено!";
+            }
+            else
+            {
+                TempData["Message"] = "Задание не добавлено!";
             }
             return RedirectToAction("Index");
         }
